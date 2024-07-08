@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    ports:
+      - "5430:5432"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password2
+      POSTGRES_USER: apilib
+      POSTGRES_DB: apilib
