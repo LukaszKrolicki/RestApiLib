@@ -1,4 +1,4 @@
-package com.rest.restapi.domain;
+package com.rest.restapi.domain.Entities;
 
 
 import jakarta.persistence.*;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "authors")
-public class Author {
+public class AuthorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
