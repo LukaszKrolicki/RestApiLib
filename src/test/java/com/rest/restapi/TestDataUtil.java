@@ -2,6 +2,8 @@ package com.rest.restapi;
 
 
 
+import com.rest.restapi.domain.DTO.AuthorDto;
+import com.rest.restapi.domain.DTO.BookDto;
 import com.rest.restapi.domain.Entities.AuthorEntity;
 import com.rest.restapi.domain.Entities.BookEntity;
 
@@ -24,14 +26,14 @@ public final class TestDataUtil {
     }
 
 
-    public static BookEntity createBook(AuthorEntity author) {
-        return BookEntity.builder().isbn("xd").title("Book Title").author(author).build();
+    public static BookDto createBook(AuthorDto author) {
+        return BookDto.builder().isbn("xd").title("Book Title").author(author).build();
     }
-    public static BookEntity createBook2(AuthorEntity author) {
-        return BookEntity.builder().isbn("xd2").title("Book Title").author(author).build();
+    public static BookDto createBook2(AuthorDto author) {
+        return BookDto.builder().isbn("xd2").title("Book Title").author(author).build();
     }
-    public static BookEntity createBook3(AuthorEntity author) {
-        return BookEntity.builder().isbn("xd3").title("Book Title").author(author).build();
+    public static BookDto createBook3(AuthorDto author) {
+        return BookDto.builder().isbn("xd3").title("Book Title").author(author).build();
     }
 
 }
