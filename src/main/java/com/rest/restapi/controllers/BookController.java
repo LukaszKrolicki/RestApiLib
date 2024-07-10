@@ -32,4 +32,10 @@ public class BookController {
         List<BookEntity> books = bookService.listBooks();
         return books.stream().map(bookMapper::mapToDto).collect(Collectors.toList());
     }
+
+    @GetMapping("/books/{isbn}")
+    public ResponseEntity<BookDto> getBook(@PathVariable("isbn") String isbn) {
+        BookEntity book = bookService.getBook(isbn);
+        return new ResponseEntity<>(bookMapper.mapToDto(book), org.springframework.http.HttpStatus.OK);
+    }
 }

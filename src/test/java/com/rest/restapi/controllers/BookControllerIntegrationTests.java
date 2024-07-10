@@ -70,4 +70,22 @@ public class BookControllerIntegrationTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].author").value(bookDto.getAuthor()));
     }
 
+    @Test
+    public void testThatBookByIDreturnsBookAndOk() throws Exception {
+        BookDto bookDto = TestDataUtil.createBook(null);
+        String createBookJson=objectMapper.writeValueAsString(bookDto);
+        mvc.perform(
+                MockMvcRequestBuilders.put("/books/" + bookDto.getIsbn())
+                        .content(createBookJson)
+                        .contentType("application/json")
+        ).andExpect(MockMvcResultMatchers.status().isCreated());
+
+        mvc.perform(
+                MockMvcRequestBuilders.get("/books/" + bookDto.getIsbn())
+        ).andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value(bookDto.getIsbn()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value(bookDto.getTitle()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.author").value(bookDto.getAuthor()));
+    }
+
 }

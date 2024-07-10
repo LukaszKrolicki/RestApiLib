@@ -27,4 +27,9 @@ public class BookServiceImpl implements BookService {
     public List<BookEntity> listBooks() {
         return StreamSupport.stream(bookRepository.findAll().spliterator(),false).collect(Collectors.toList());
     }
+
+    @Override
+    public BookEntity getBook(String isbn) {
+        return bookRepository.findById(isbn).orElse(null);
+    }
 }

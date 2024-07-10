@@ -8,4 +8,6 @@ public interface BookService {
     BookEntity createBook(String isbn, BookEntity book);
 
     List<BookEntity> listBooks();
+
+    BookEntity getBook(String isbn);
 }

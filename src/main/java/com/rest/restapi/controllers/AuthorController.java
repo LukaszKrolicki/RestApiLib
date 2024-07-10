@@ -39,4 +39,5 @@ public class AuthorController {
         AuthorEntity author = authorService.getAuthor(id);
         return authorMapper.mapToDto(author);
     }
+
 }
