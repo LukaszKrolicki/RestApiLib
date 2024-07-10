@@ -11,4 +11,6 @@ public interface AuthorService {
     List<AuthorEntity> listAuthors();
 
     AuthorEntity getAuthor(Long id);
+
+    AuthorEntity updateAuthor(Long id, AuthorEntity authorEntity);
 }

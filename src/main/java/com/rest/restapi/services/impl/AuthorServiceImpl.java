@@ -32,4 +32,10 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorEntity getAuthor(Long id) {
         return authorRepository.findById(id).orElse(null);
     }
+
+    @Override
+    public AuthorEntity updateAuthor(Long id, AuthorEntity authorEntity) {
+        authorEntity.setId(id);
+        return authorRepository.save(authorEntity);
+    }
 }
