@@ -6,6 +6,10 @@ import com.rest.restapi.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 @Service
 public class AuthorServiceImpl implements AuthorService {
 
@@ -17,5 +21,10 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorEntity createAuthor(AuthorEntity author) {
         authorRepository.save(author);
         return author;
+    }
+
+    @Override
+    public List<AuthorEntity> listAuthors() {
+        return StreamSupport.stream(authorRepository.findAll().spliterator(),false).collect(Collectors.toList());
     }
 }

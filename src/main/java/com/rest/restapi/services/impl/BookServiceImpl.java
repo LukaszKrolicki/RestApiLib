@@ -6,6 +6,10 @@ import com.rest.restapi.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 @Service
 public class BookServiceImpl implements BookService {
 
@@ -17,5 +21,10 @@ public class BookServiceImpl implements BookService {
     public BookEntity createBook(String isbn, BookEntity book) {
         book.setIsbn(isbn);
         return bookRepository.save(book);
+    }
+
+    @Override
+    public List<BookEntity> listBooks() {
+        return StreamSupport.stream(bookRepository.findAll().spliterator(),false).collect(Collectors.toList());
     }
 }

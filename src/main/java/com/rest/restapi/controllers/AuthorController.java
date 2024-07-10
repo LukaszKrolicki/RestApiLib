@@ -7,9 +7,13 @@ import com.rest.restapi.mappers.Mapper;
 import com.rest.restapi.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class AuthorController {
@@ -25,5 +29,11 @@ public class AuthorController {
         AuthorEntity authorEntity = authorMapper.mapToEntity(author);
         AuthorEntity savedAuthorEntity = authorService.createAuthor(authorEntity);
         return new ResponseEntity<>(authorMapper.mapToDto(savedAuthorEntity), org.springframework.http.HttpStatus.CREATED);
+    }
+
+    @GetMapping("/authors")
+    public List<AuthorDto> listAuthors() {
+        List<AuthorEntity> authors = authorService.listAuthors();
+        return authors.stream().map(authorMapper::mapToDto).collect(Collectors.toList());
     }
 }

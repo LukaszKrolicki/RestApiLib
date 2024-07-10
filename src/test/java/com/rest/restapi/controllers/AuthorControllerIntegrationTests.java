@@ -2,7 +2,9 @@ package com.rest.restapi.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rest.restapi.TestDataUtil;
+import com.rest.restapi.domain.DTO.AuthorDto;
 import com.rest.restapi.domain.Entities.AuthorEntity;
+import com.rest.restapi.services.AuthorService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class AuthorControllerIntegrationTests {
 
     @Autowired
     private MockMvc mvc;
+
+    @Autowired
+    private AuthorService authorService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -50,6 +55,26 @@ public class AuthorControllerIntegrationTests {
         ).andExpect(MockMvcResultMatchers.jsonPath("$.id").isNumber())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(testAuthorA.getName()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(testAuthorA.getAge()));
+    }
+
+    @Test
+    public void testThatListAuthorsReturnsHttp200() throws Exception {
+        mvc.perform(
+                MockMvcRequestBuilders.get("/authors")
+        ).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void testThatListAuthorsReturnsListOfAuthors() throws Exception {
+        AuthorEntity testAuthorA = TestDataUtil.createTestAuthor();
+        testAuthorA.setId(null);
+        authorService.createAuthor(testAuthorA);
+
+        mvc.perform(
+                MockMvcRequestBuilders.get("/authors")
+        ).andExpect(MockMvcResultMatchers.jsonPath("$[0].id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value(testAuthorA.getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].age").value(testAuthorA.getAge()));
     }
 
 }

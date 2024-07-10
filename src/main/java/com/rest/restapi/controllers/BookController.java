@@ -6,10 +6,11 @@ import com.rest.restapi.mappers.Mapper;
 import com.rest.restapi.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.awt.print.Book;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class BookController {
@@ -24,5 +25,11 @@ public class BookController {
         BookEntity bookEntity = bookMapper.mapToEntity(book);
         BookEntity savedBookEntity = bookService.createBook(isbn, bookEntity);
         return new ResponseEntity<>(bookMapper.mapToDto(savedBookEntity), org.springframework.http.HttpStatus.CREATED);
+    }
+
+    @GetMapping("/books")
+    public List<BookDto> listBooks() {
+        List<BookEntity> books = bookService.listBooks();
+        return books.stream().map(bookMapper::mapToDto).collect(Collectors.toList());
     }
 }
