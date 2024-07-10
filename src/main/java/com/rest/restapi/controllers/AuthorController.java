@@ -7,10 +7,7 @@ import com.rest.restapi.mappers.Mapper;
 import com.rest.restapi.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,5 +32,11 @@ public class AuthorController {
     public List<AuthorDto> listAuthors() {
         List<AuthorEntity> authors = authorService.listAuthors();
         return authors.stream().map(authorMapper::mapToDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/authors/{id}")
+    public AuthorDto getAuthor(@PathVariable("id") Long id) {
+        AuthorEntity author = authorService.getAuthor(id);
+        return authorMapper.mapToDto(author);
     }
 }

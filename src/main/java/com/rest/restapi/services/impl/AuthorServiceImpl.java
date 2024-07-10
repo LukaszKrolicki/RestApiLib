@@ -27,4 +27,9 @@ public class AuthorServiceImpl implements AuthorService {
     public List<AuthorEntity> listAuthors() {
         return StreamSupport.stream(authorRepository.findAll().spliterator(),false).collect(Collectors.toList());
     }
+
+    @Override
+    public AuthorEntity getAuthor(Long id) {
+        return authorRepository.findById(id).orElse(null);
+    }
 }

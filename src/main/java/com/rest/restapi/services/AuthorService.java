@@ -9,4 +9,6 @@ public interface AuthorService {
     AuthorEntity createAuthor(AuthorEntity author);
 
     List<AuthorEntity> listAuthors();
+
+    AuthorEntity getAuthor(Long id);
 }
