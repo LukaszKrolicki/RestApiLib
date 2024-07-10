@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rest.restapi.TestDataUtil;
 import com.rest.restapi.domain.DTO.BookDto;
 import com.rest.restapi.domain.Entities.AuthorEntity;
+import com.rest.restapi.domain.Entities.BookEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,13 @@ public class BookControllerIntegrationTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].isbn").value(bookDto.getIsbn()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value(bookDto.getTitle()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].author").value(bookDto.getAuthor()));
+    }
+
+    @Test
+    public void testThatBookRetrieves404WhenDoesntExist() throws Exception {
+        mvc.perform(
+                MockMvcRequestBuilders.get("/books/123")
+        ).andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
     @Test

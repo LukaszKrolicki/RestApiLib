@@ -35,7 +35,11 @@ public class BookController {
 
     @GetMapping("/books/{isbn}")
     public ResponseEntity<BookDto> getBook(@PathVariable("isbn") String isbn) {
+
         BookEntity book = bookService.getBook(isbn);
+        if(book == null) {
+            return new ResponseEntity<>(org.springframework.http.HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(bookMapper.mapToDto(book), org.springframework.http.HttpStatus.OK);
     }
 }
