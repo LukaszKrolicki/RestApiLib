@@ -6,6 +6,7 @@ import com.rest.restapi.domain.Entities.AuthorEntity;
 import com.rest.restapi.mappers.Mapper;
 import com.rest.restapi.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,5 +59,14 @@ public class AuthorController {
         AuthorEntity authorEntity = authorMapper.mapToEntity(author);
         AuthorEntity updatedAuthorEntity = authorService.patchAuthor(id, authorEntity);
         return new ResponseEntity<>(authorMapper.mapToDto(updatedAuthorEntity), org.springframework.http.HttpStatus.OK);
+    }
+
+    @DeleteMapping("/authors/{id}")
+    public ResponseEntity deleteAuthor(@PathVariable("id") Long id) {
+        if(authorService.getAuthor(id) == null) {
+            return new ResponseEntity<>(org.springframework.http.HttpStatus.NOT_FOUND);
+        }
+        authorService.deleteAuthor(id);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

@@ -125,4 +125,13 @@ public class AuthorControllerIntegrationTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(savedAuthor.getAge()));
 
     }
+
+    @Test
+    public void testDeleteAuthorReturns204() throws Exception {
+        AuthorEntity testAuthorA = TestDataUtil.createTestAuthor();
+        AuthorEntity savedAuthor = authorService.createAuthor(testAuthorA);
+        mvc.perform(
+                MockMvcRequestBuilders.delete("/authors/" + savedAuthor.getId())
+        ).andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
 }

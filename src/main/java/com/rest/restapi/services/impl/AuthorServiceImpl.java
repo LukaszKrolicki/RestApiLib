@@ -1,7 +1,9 @@
 package com.rest.restapi.services.impl;
 
 import com.rest.restapi.domain.Entities.AuthorEntity;
+import com.rest.restapi.domain.Entities.BookEntity;
 import com.rest.restapi.repositories.AuthorRepository;
+import com.rest.restapi.repositories.BookRepository;
 import com.rest.restapi.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ public class AuthorServiceImpl implements AuthorService {
     @Autowired
     private AuthorRepository authorRepository;
 
+    @Autowired
+    private BookRepository bookRepository;
 
     @Override
     public AuthorEntity createAuthor(AuthorEntity author) {
@@ -48,4 +52,21 @@ public class AuthorServiceImpl implements AuthorService {
             return authorRepository.save(existingAuthorEntity);
         }).orElseThrow(() -> new RuntimeException("Author not found"));
     }
+
+    @Override
+    public void deleteAuthor(Long id) {
+        // Fetch all books by the author
+        List<BookEntity> booksByAuthor = bookRepository.findByAuthorId(id);
+
+        // Delete or update all books by the author
+        for (BookEntity book : booksByAuthor) {
+
+             book.setAuthor(null);
+             bookRepository.save(book);
+        }
+
+        // Now you can delete the author
+        authorRepository.deleteById(id);
+    }
+
 }
