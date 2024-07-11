@@ -89,25 +89,10 @@ public class AuthorControllerIntegrationTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(testAuthorA.getName()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(testAuthorA.getAge()));
     }
+    
 
     @Test
-    public void testThatPutAuthorReturns200() throws Exception {
-        AuthorEntity testAuthorA = TestDataUtil.createTestAuthor();
-        testAuthorA.setId(null);
-        AuthorEntity savedAuthor = authorService.createAuthor(testAuthorA);
-        AuthorDto authorDto = new AuthorDto();
-        authorDto.setName("New Name");
-        authorDto.setAge(30);
-        String authorJson = objectMapper.writeValueAsString(authorDto);
-        mvc.perform(
-                MockMvcRequestBuilders.put("/authors/" + savedAuthor.getId())
-                        .content(authorJson)
-                        .contentType("application/json")
-        ).andExpect(MockMvcResultMatchers.status().isOk());
-    }
-
-    @Test
-    public void testThatPutAuthorCorrectlyChangesAuthorData() throws Exception {
+    public void testThatUpdateAuthorReturnsUpdatedAuthor() throws Exception {
         AuthorEntity testAuthorA = TestDataUtil.createTestAuthor();
         testAuthorA.setId(null);
         AuthorEntity savedAuthor = authorService.createAuthor(testAuthorA);

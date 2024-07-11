@@ -23,8 +23,14 @@ public class BookController {
     @PutMapping("/books/{isbn}")
     public ResponseEntity<BookDto> createBook(@PathVariable("isbn") String isbn, @RequestBody BookDto book) {
         BookEntity bookEntity = bookMapper.mapToEntity(book);
-        BookEntity savedBookEntity = bookService.createBook(isbn, bookEntity);
-        return new ResponseEntity<>(bookMapper.mapToDto(savedBookEntity), org.springframework.http.HttpStatus.CREATED);
+        if(bookService.getBook(bookEntity.getIsbn()) != null) {
+            bookService.updateBook(isbn, bookEntity);
+            return new ResponseEntity<>(org.springframework.http.HttpStatus.OK);
+        }
+        else{
+            BookEntity savedBookEntity = bookService.createBook(isbn, bookEntity);
+            return new ResponseEntity<>(bookMapper.mapToDto(savedBookEntity), org.springframework.http.HttpStatus.CREATED);
+        }
     }
 
     @GetMapping("/books")
@@ -42,4 +48,5 @@ public class BookController {
         }
         return new ResponseEntity<>(bookMapper.mapToDto(book), org.springframework.http.HttpStatus.OK);
     }
+
 }

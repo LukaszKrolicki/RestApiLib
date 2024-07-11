@@ -32,4 +32,10 @@ public class BookServiceImpl implements BookService {
     public BookEntity getBook(String isbn) {
         return bookRepository.findById(isbn).orElse(null);
     }
+
+    @Override
+    public BookEntity updateBook(String isbn, BookEntity bookEntity) {
+        bookEntity.setIsbn(isbn);
+        return bookRepository.save(bookEntity);
+    }
 }
