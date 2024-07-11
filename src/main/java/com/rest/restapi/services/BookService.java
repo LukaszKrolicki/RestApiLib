@@ -14,4 +14,6 @@ public interface BookService {
     BookEntity updateBook(String isbn, BookEntity bookEntity);
 
     BookEntity patchBook(String isbn, BookEntity bookEntity);
+
+    void deleteBook(String isbn);
 }

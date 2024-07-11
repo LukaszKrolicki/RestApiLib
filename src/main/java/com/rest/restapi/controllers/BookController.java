@@ -59,4 +59,13 @@ public class BookController {
         return new ResponseEntity<>(bookMapper.mapToDto(updatedBookEntity), org.springframework.http.HttpStatus.OK);
     }
 
+    @DeleteMapping("/books/{isbn}")
+    public ResponseEntity deleteBook(@PathVariable("isbn") String isbn) {
+        if(bookService.getBook(isbn) == null) {
+            return new ResponseEntity<>(org.springframework.http.HttpStatus.NOT_FOUND);
+        }
+        bookService.deleteBook(isbn);
+        return new ResponseEntity<>(org.springframework.http.HttpStatus.OK);
+    }
+
 }

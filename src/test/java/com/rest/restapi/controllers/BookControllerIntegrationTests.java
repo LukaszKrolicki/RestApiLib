@@ -126,4 +126,18 @@ public class BookControllerIntegrationTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.author").value(bookDto.getAuthor()));
     }
 
+    @Test
+    public void testThatDeleteBook() throws Exception {
+        BookDto bookDto = TestDataUtil.createBook(null);
+        String createBookJson=objectMapper.writeValueAsString(bookDto);
+        mvc.perform(
+                MockMvcRequestBuilders.put("/books/" + bookDto.getIsbn())
+                        .content(createBookJson)
+                        .contentType("application/json")
+        ).andExpect(MockMvcResultMatchers.status().isCreated());
+
+        mvc.perform(
+                MockMvcRequestBuilders.delete("/books/" + bookDto.getIsbn())
+        ).andExpect(MockMvcResultMatchers.status().isOk());}
+
 }
