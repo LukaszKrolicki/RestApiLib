@@ -6,6 +6,8 @@ import com.rest.restapi.repositories.AuthorRepository;
 import com.rest.restapi.repositories.BookRepository;
 import com.rest.restapi.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -68,5 +70,11 @@ public class BookServiceImpl implements BookService {
     public void deleteBook(String isbn) {
         bookRepository.deleteById(isbn);
     }
+
+    @Override
+    public Page<BookEntity> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
+    }
+
 
 }

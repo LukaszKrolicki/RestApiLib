@@ -5,10 +5,13 @@ import com.rest.restapi.domain.Entities.BookEntity;
 import com.rest.restapi.mappers.Mapper;
 import com.rest.restapi.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Book;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,9 +37,9 @@ public class BookController {
     }
 
     @GetMapping("/books")
-    public List<BookDto> listBooks() {
-        List<BookEntity> books = bookService.listBooks();
-        return books.stream().map(bookMapper::mapToDto).collect(Collectors.toList());
+    public Page<BookDto> listBooks(Pageable pageable) {
+        Page<BookEntity> books = bookService.findAll(pageable);
+        return books.map(bookMapper::mapToDto);
     }
 
     @GetMapping("/books/{isbn}")
