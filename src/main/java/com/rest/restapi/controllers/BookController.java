@@ -49,4 +49,14 @@ public class BookController {
         return new ResponseEntity<>(bookMapper.mapToDto(book), org.springframework.http.HttpStatus.OK);
     }
 
+    @PatchMapping("/books/{isbn}")
+    public ResponseEntity<BookDto> partialUpdateBook(@PathVariable("isbn") String isbn, @RequestBody BookDto book) {
+        if(bookService.getBook(isbn) == null) {
+            return new ResponseEntity<>(org.springframework.http.HttpStatus.NOT_FOUND);
+        }
+        BookEntity bookEntity = bookMapper.mapToEntity(book);
+        BookEntity updatedBookEntity = bookService.patchBook(isbn, bookEntity);
+        return new ResponseEntity<>(bookMapper.mapToDto(updatedBookEntity), org.springframework.http.HttpStatus.OK);
+    }
+
 }
