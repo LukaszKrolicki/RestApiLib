@@ -49,4 +49,14 @@ public class AuthorController {
         AuthorEntity updatedAuthorEntity = authorService.updateAuthor(id, authorEntity);
         return new ResponseEntity<>(authorMapper.mapToDto(updatedAuthorEntity), org.springframework.http.HttpStatus.OK);
     }
+
+    @PatchMapping("/authors/{id}")
+    public ResponseEntity<AuthorDto> partialUpdateAuthor(@PathVariable("id") Long id, @RequestBody AuthorDto author) {
+        if(authorService.getAuthor(id) == null) {
+            return new ResponseEntity<>(org.springframework.http.HttpStatus.NOT_FOUND);
+        }
+        AuthorEntity authorEntity = authorMapper.mapToEntity(author);
+        AuthorEntity updatedAuthorEntity = authorService.patchAuthor(id, authorEntity);
+        return new ResponseEntity<>(authorMapper.mapToDto(updatedAuthorEntity), org.springframework.http.HttpStatus.OK);
+    }
 }

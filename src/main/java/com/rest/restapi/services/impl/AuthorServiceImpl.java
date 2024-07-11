@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -37,5 +38,14 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorEntity updateAuthor(Long id, AuthorEntity authorEntity) {
         authorEntity.setId(id);
         return authorRepository.save(authorEntity);
+    }
+
+    @Override
+    public AuthorEntity patchAuthor(Long id, AuthorEntity authorEntity) {
+        return authorRepository.findById(id).map(existingAuthorEntity ->{
+            Optional.ofNullable(authorEntity.getName()).ifPresent(existingAuthorEntity::setName);
+            Optional.ofNullable(authorEntity.getAge()).ifPresent(existingAuthorEntity::setAge);
+            return authorRepository.save(existingAuthorEntity);
+        }).orElseThrow(() -> new RuntimeException("Author not found"));
     }
 }

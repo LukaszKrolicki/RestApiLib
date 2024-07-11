@@ -13,4 +13,6 @@ public interface AuthorService {
     AuthorEntity getAuthor(Long id);
 
     AuthorEntity updateAuthor(Long id, AuthorEntity authorEntity);
+
+    AuthorEntity patchAuthor(Long id, AuthorEntity authorEntity);
 }
